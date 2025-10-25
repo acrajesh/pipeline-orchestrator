@@ -1,0 +1,65 @@
+# Pipeline Orchestrator - Git Ignore
+
+# Logs and execution artifacts
+runlogs/
+logs/
+*.log
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Project-specific directories
+deliveries/
+work/
+target/
+build/
+dist/
+*.egg-info/
+
+# Temporary files
+*.tmp
+*.bak
+*.orig
+temp/
+tmp/
+
+# Build artifacts
+*.class
+*.jar
+*.war
+*.ear
+bin/
+lib/
+
+# Configuration files with sensitive data
+config.local.yaml
+secrets.yaml
+.env
+.env.local
+
+# Test coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Documentation builds
+docs/_build/
+site/

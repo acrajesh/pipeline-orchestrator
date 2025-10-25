@@ -1,0 +1,184 @@
+# Pipeline Orchestrator Configuration
+# This file demonstrates how the orchestrator can be extended to use configuration-driven execution
+
+pipeline:
+  name: "Data Transformation Pipeline"
+  version: "1.0.0"
+  
+  # Default settings
+  defaults:
+    snapshot: "snapshot-1"
+    build_tool: "ant"
+    log_retention_days: 30
+    parallel_execution: false
+
+  # Project structure
+  directories:
+    deliveries: "deliveries"
+    work: "work"
+    target: "target"
+    logs: "logs"
+    runlogs: "runlogs"
+
+  # Environment variables to set
+  environment:
+    DELIVERY_DIR: "deliveries/${snapshot}"
+    SNAPSHOT_NAME: "${snapshot}"
+    APP_NAME: "${app_name}"
+    TARGET_LANGUAGE: "java"
+    TARGET_SCRIPT_LANGUAGE: "bash"
+
+# Phase definitions
+phases:
+  extract:
+    enabled: true
+    parallel: false
+    file_types:
+      - source-files
+      - config-files
+      - data-files
+      - metadata
+    tools:
+      source-files: "tools/pipeline/extract-source-files.py"
+      config-files: "tools/pipeline/extract-config-files.py"
+      data-files: "tools/pipeline/extract-data-files.py"
+      metadata: "tools/pipeline/extract-metadata.py"
+    
+  validate:
+    enabled: true
+    parallel: false
+    file_types:
+      - source-files
+      - config-files
+      - data-files
+    tools:
+      source-files: "tools/pipeline/validate-source-files.py"
+      config-files: "tools/pipeline/validate-config-files.py"
+      data-files: "tools/pipeline/validate-data-files.py"
+    validation_rules:
+      - check_encoding: true
+      - check_syntax: true
+      - check_completeness: true
+  
+  analyze:
+    enabled: true
+    parallel: true  # These can run in parallel
+    analysis_types:
+      - dependencies
+      - patterns
+      - metrics
+      - quality
+    tools:
+      dependencies: "tools/pipeline/analyze-dependencies.py"
+      patterns: "tools/pipeline/analyze-patterns.py"
+      metrics: "tools/pipeline/analyze-metrics.py"
+      quality: "tools/pipeline/analyze-quality.py"
+    reports:
+      - dependency-graph
+      - pattern-analysis
+      - quality-metrics
+  
+  transform:
+    enabled: true
+    parallel: false
+    transformations:
+      - source: "source-files"
+        target: "target-format"
+        tool: "tools/pipeline/transform-source-files-to-target-format.py"
+        options:
+          strict_mode: true
+          optimization_level: 2
+      
+      - source: "config-files"
+        target: "target-config"
+        tool: "tools/pipeline/transform-config-files-to-target-config.py"
+        options:
+          preserve_comments: true
+      
+      - source: "data-files"
+        target: "target-schema"
+        tool: "tools/pipeline/transform-data-files-to-target-schema.py"
+        options:
+          validate_schema: true
+    
+    quality_criteria:
+      max_errors: 0
+      max_warnings: 10
+      min_coverage: 0.95
+  
+  build:
+    enabled: true
+    build_tool: "ant"
+    targets:
+      - clean
+      - build
+      - install
+    
+    artifact_selection:
+      copy_only_successful: true
+      validate_before_copy: true
+    
+    metrics:
+      calculate_success_rate: true
+      report_detailed_metrics: true
+
+# Execution modes
+modes:
+  analysis_only:
+    phases:
+      - extract
+      - validate
+      - analyze
+  
+  transform_and_build:
+    phases:
+      - extract
+      - validate
+      - transform
+      - build
+  
+  full_pipeline:
+    phases:
+      - extract
+      - validate
+      - analyze
+      - transform
+      - build
+
+# Logging configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(levelname)s - %(message)s"
+  timestamp_format: "%Y%m%d_%H%M%S"
+  rotation:
+    enabled: true
+    max_size_mb: 100
+    backup_count: 10
+
+# Error handling
+error_handling:
+  fail_fast: true
+  retry_on_failure: false
+  max_retries: 3
+  notify_on_failure: false
+  
+# Metrics and reporting
+reporting:
+  generate_summary: true
+  success_rate_threshold: 0.95
+  export_format: "json"
+  metrics_to_track:
+    - total_artifacts
+    - successful_transforms
+    - build_success_rate
+    - execution_time
+    - error_count
+
+# Notification settings (for future extension)
+notifications:
+  enabled: false
+  channels:
+    - type: "email"
+      recipients: []
+    - type: "slack"
+      webhook_url: ""
