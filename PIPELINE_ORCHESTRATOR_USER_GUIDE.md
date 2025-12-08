@@ -2,342 +2,647 @@
 
 ## Table of Contents
 
-1. [Overview](#overview)
-   - [Key Capabilities](#key-capabilities)
-2. [Architecture & Features](#architecture--features)
-   - [Multi-Phase Execution Pipeline](#multi-phase-execution-pipeline)
-   - [Enterprise-Grade Capabilities](#enterprise-grade-capabilities)
-3. [Installation & Setup](#installation--setup)
+1. [Introduction](#introduction)
+2. [Getting Started](#getting-started)
    - [Prerequisites](#prerequisites)
-   - [Quick Start](#quick-start)
-4. [Execution Modes](#execution-modes)
-   - [Analysis Only Mode](#1-analysis-only-mode)
-   - [Transform and Build Mode](#2-transform-and-build-mode)
-   - [Full Pipeline Mode](#3-full-pipeline-mode)
-5. [Configuration Options](#configuration-options)
-   - [Project Structure](#project-structure)
-   - [Environment Variables](#environment-variables)
-6. [Domain-Specific Applications](#domain-specific-applications)
-   - [Financial Services](#financial-services)
-   - [Healthcare](#healthcare)
-   - [Retail & E-commerce](#retail--e-commerce)
-   - [Quick Service Restaurants](#quick-service-restaurants)
-7. [Enterprise Integration](#enterprise-integration)
-   - [Marketing Automation](#marketing-automation)
-   - [Sales Operations](#sales-operations)
-   - [HR & Talent Management](#hr--talent-management)
-   - [Finance & Legal](#finance--legal)
-8. [Customer-Ready Solutions](#customer-ready-solutions)
-   - [Digital Assistants](#digital-assistants)
-9. [Monitoring & Metrics](#monitoring--metrics)
-   - [Real-Time Progress Tracking](#real-time-progress-tracking)
-   - [Quality Metrics](#quality-metrics)
-   - [Logging & Audit Trail](#logging--audit-trail)
-10. [Best Practices](#best-practices)
-    - [Performance Optimization](#performance-optimization)
-    - [Security & Compliance](#security--compliance)
-    - [Operational Excellence](#operational-excellence)
-11. [Troubleshooting](#troubleshooting)
-    - [Common Issues](#common-issues)
-    - [Error Recovery](#error-recovery)
-12. [Advanced Features](#advanced-features)
-    - [Extensibility](#extensibility)
-    - [Integration Capabilities](#integration-capabilities)
-13. [Support & Resources](#support--resources)
-    - [Getting Help](#getting-help)
-    - [Continuous Improvement](#continuous-improvement)
-14. [Conclusion](#conclusion)
+   - [Project Structure Setup](#project-structure-setup)
+   - [Launching the Orchestrator](#launching-the-orchestrator)
+3. [Pipeline Overview](#pipeline-overview)
+4. [Step-by-Step Walkthrough](#step-by-step-walkthrough)
+   - [Step 1: Launch and Configuration](#step-1-launch-and-configuration)
+   - [Step 2: Select Data Snapshot](#step-2-select-data-snapshot)
+   - [Step 3: Choose Execution Mode](#step-3-choose-execution-mode)
+5. [Pipeline Phases In Detail](#pipeline-phases-in-detail)
+   - [Phase 1: Extract](#phase-1-extract)
+   - [Phase 2: Validate](#phase-2-validate)
+   - [Phase 3: Analyze](#phase-3-analyze)
+   - [Phase 4: Transform](#phase-4-transform)
+   - [Phase 5: Build](#phase-5-build)
+6. [Understanding Output and Logs](#understanding-output-and-logs)
+7. [Execution Metrics](#execution-metrics)
+8. [Troubleshooting](#troubleshooting)
+9. [Appendix: Environment Variables](#appendix-environment-variables)
 
 ---
 
-## Redefine Your Software Development Process with Agentic AI
+## Introduction
 
-The Pipeline Orchestrator is an enterprise-grade automation framework that **accelerates every stage of the SDLC** (Software Development Life Cycle). From project management to DevSecOps, this Agentic AI solution empowers teams to **deliver faster, reduce costs, and improve quality**, enabling enterprises to **innovate at scale** with greater **speed, security, and reliability**.
+The Pipeline Orchestrator is a multi-phase automation framework designed to process, transform, and build enterprise application artifacts. It provides a structured approach to handling complex data processing workflows with built-in logging, error handling, and progress tracking.
 
-## Overview
+This guide walks you through each step of using the orchestrator, from initial setup to understanding the final output.
 
-This multi-phase pipeline orchestrator provides a comprehensive solution for **modernizing enterprise applications** across diverse platforms and programming environments. Whether you're working with **established enterprise systems, COBOL applications**, or modern cloud-native architectures, the orchestrator helps organizations **rapidly transform existing codebases** into **scalable, cloud-ready architectures** while **automating testing and configuration migration**.
+---
 
-### Key Capabilities
-
-- **Discover applications** and build comprehensive knowledge bases
-- **Generate architecture documentation** automatically
-- **Pinpoint root causes** across complex environments
-- Transform **scattered data into actionable intelligence**
-- **Reduce downtime** and simplify modernization efforts
-- **Accelerate delivery pipelines** with confidence
-
-## Architecture & Features
-
-### Multi-Phase Execution Pipeline
-
-The orchestrator manages five distinct phases that mirror enterprise software development workflows:
-
-1. **Extract Phase** - Source file discovery and extraction
-2. **Validate Phase** - Data cleaning and validation
-3. **Analyze Phase** - Dependency analysis and pattern recognition
-4. **Transform Phase** - Legacy code conversion and modernization
-5. **Build Phase** - Artifact compilation and packaging
-
-### Enterprise-Grade Capabilities
-
-- **Robust error handling** with comprehensive logging
-- **Progress tracking** and real-time monitoring
-- **Artifact validation** with quality metrics
-- **Success rate calculation** and reporting
-- **Interactive mode selection** for different workflows
-- **Graceful error recovery** and user feedback
-
-## Installation & Setup
+## Getting Started
 
 ### Prerequisites
 
-- Python 3.7 or higher
-- Build tools (Ant, Maven, or Gradle)
-- Access to source code repositories
-- Sufficient disk space for processing artifacts
+Before running the orchestrator, ensure you have:
 
-### Quick Start
+| Requirement | Description |
+|-------------|-------------|
+| **Python** | Version 3.7 or higher |
+| **Build Tool** | Ant, Maven, or Gradle (for build phase) |
+| **Disk Space** | Sufficient space for source files, logs, and artifacts |
+| **Permissions** | Read/write access to project directories |
 
-1. **Clone or download** the pipeline orchestrator
-2. **Navigate** to your project directory
-3. **Run** the orchestrator:
+### Project Structure Setup
+
+Your project directory must follow this structure:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    PROJECT DIRECTORY                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   📁 deliveries/                                            │
+│   │   └── 📁 snapshot-1/        ← Source data snapshots     │
+│   │   └── 📁 snapshot-2/                                    │
+│   │                                                         │
+│   📁 tools/                                                 │
+│   │   └── 📁 pipeline/          ← Processing scripts        │
+│   │       ├── extract-*.py                                  │
+│   │       ├── validate-*.py                                 │
+│   │       ├── analyze-*.py                                  │
+│   │       └── transform-*.py                                │
+│   │                                                         │
+│   📁 work/                                                  │
+│   │   └── 📁 transformed/       ← Intermediate results      │
+│   │                                                         │
+│   📁 target/                                                │
+│   │   └── 📁 artifacts/         ← Final build outputs       │
+│   │                                                         │
+│   📁 logs/                      ← Execution logs            │
+│       └── transformation.log                                │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Launching the Orchestrator
 
 ```bash
 python pipeline_orchestrator.py
 ```
 
-## Execution Modes
+---
 
-The orchestrator provides three execution modes to support different **domain-aware** operational needs:
+## Pipeline Overview
 
-### 1. Analysis Only Mode
-**Perfect for discovery and assessment phases**
-
-- Extracts and validates source files
-- Performs dependency analysis
-- Generates quality metrics
-- Creates architecture documentation
-- **Reduces risk** before transformation
-
-**Use Cases:**
-- Enterprise system assessment
-- **Regulatory compliance** in financial services
-- Code quality auditing
-- Modernization planning
-
-### 2. Transform and Build Mode
-**Optimized for conversion workflows**
-
-- Performs file transformation
-- Builds target artifacts
-- Validates output quality
-- **Automates configuration migration**
-
-**Use Cases:**
-- **Research pipeline** automation in healthcare
-- **Supply chain orchestration** in quick service restaurants
-- **Product management** system updates in retail
-- Cloud migration projects
-
-### 3. Full Pipeline Mode
-**Complete end-to-end automation**
-
-- Combines analysis and transformation
-- Provides comprehensive metrics
-- **Delivers enterprise-grade reliability**
-- Ensures **future-ready** operations
-
-**Use Cases:**
-- Complete enterprise modernization
-- **DevSecOps** pipeline integration
-- Large-scale system migrations
-- **Compliance-driven** transformations
-
-## Configuration Options
-
-### Project Structure
+The orchestrator executes a **5-phase pipeline**. Here is the complete flow:
 
 ```
-project-directory/
-├── deliveries/
-│   └── snapshot-1/          # Data snapshots
-├── tools/
-│   └── pipeline/            # Processing scripts
-├── work/
-│   └── transformed/         # Intermediate results
-├── target/
-│   └── artifacts/          # Final outputs
-└── logs/                   # Execution logs
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                           PIPELINE FLOW DIAGRAM                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+    ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+    │   PHASE 1   │     │   PHASE 2   │     │   PHASE 3   │     │   PHASE 4   │     │   PHASE 5   │
+    │   EXTRACT   │────▶│  VALIDATE   │────▶│   ANALYZE   │────▶│  TRANSFORM  │────▶│    BUILD    │
+    └─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘
+          │                   │                   │                   │                   │
+          ▼                   ▼                   ▼                   ▼                   ▼
+    ┌───────────┐       ┌───────────┐       ┌───────────┐       ┌───────────┐       ┌───────────┐
+    │• source   │       │• source   │       │• depend-  │       │• source → │       │• clean    │
+    │  files    │       │  files    │       │  encies   │       │  target   │       │• build    │
+    │• config   │       │• config   │       │• patterns │       │• config → │       │• install  │
+    │  files    │       │  files    │       │• metrics  │       │  target   │       │           │
+    │• data     │       │• data     │       │• quality  │       │• data →   │       │           │
+    │  files    │       │  files    │       │           │       │  target   │       │           │
+    │• metadata │       │           │       │           │       │           │       │           │
+    └───────────┘       └───────────┘       └───────────┘       └───────────┘       └───────────┘
+
 ```
 
-### Environment Variables
+### Execution Modes
 
-The orchestrator automatically sets:
-- `DELIVERY_DIR` - Snapshot location
-- `SNAPSHOT_NAME` - Selected data snapshot
-- `APP_NAME` - Application identifier
+The orchestrator offers **3 execution modes**:
 
-## Domain-Specific Applications
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           EXECUTION MODES                                   │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  MODE 1: Analysis Only                                                      │
+│  ┌─────────┐   ┌──────────┐   ┌─────────┐                                   │
+│  │ EXTRACT │──▶│ VALIDATE │──▶│ ANALYZE │                                   │
+│  └─────────┘   └──────────┘   └─────────┘                                   │
+│                                                                             │
+│  MODE 2: Transform and Build                                                │
+│  ┌─────────┐   ┌──────────┐   ┌───────────┐   ┌───────┐                     │
+│  │ EXTRACT │──▶│ VALIDATE │──▶│ TRANSFORM │──▶│ BUILD │                     │
+│  └─────────┘   └──────────┘   └───────────┘   └───────┘                     │
+│                                                                             │
+│  MODE 3: Full Pipeline                                                      │
+│  ┌─────────┐   ┌──────────┐   ┌─────────┐   ┌───────────┐   ┌───────┐       │
+│  │ EXTRACT │──▶│ VALIDATE │──▶│ ANALYZE │──▶│ TRANSFORM │──▶│ BUILD │       │
+│  └─────────┘   └──────────┘   └─────────┘   └───────────┘   └───────┘       │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
 
-### Financial Services
-- **Built-in compliance** for regulatory requirements
-- **Precision** in transaction processing
-- **Automated compliance** and risk assessment
-- Enterprise application modernization
+---
 
-### Healthcare
-- **Research pipeline** automation
-- Patient data processing with **security** focus
-- Clinical trial data transformation
-- **Compliance** with healthcare regulations
+## Step-by-Step Walkthrough
 
-### Retail & E-commerce
-- **Product management** system modernization
-- Inventory management automation
-- Customer data processing
-- **Supply chain** optimization
+### Step 1: Launch and Configuration
 
-### Quick Service Restaurants
-- **Supply chain orchestration**
-- Point-of-sale system updates
-- **Operational efficiency** improvements
-- Multi-location deployment automation
+When you run `python pipeline_orchestrator.py`, you will see:
 
-## Enterprise Integration
+```
+============================================================
+PIPELINE ORCHESTRATOR
+============================================================
 
-### Marketing Automation
-- **Sentiment analysis** pipeline integration
-- **Content creation** workflow automation
-- Customer engagement data processing
-- Campaign performance analytics
+Enter project directory path: _
+```
 
-### Sales Operations
-- Lead processing automation
-- **CRM integration** and data migration
-- Sales pipeline analytics
-- **Revenue stream** optimization
+**Action:** Enter the full path to your project directory.
 
-### HR & Talent Management
-- **Recruiting** process automation
-- Employee data migration
-- Performance analytics
-- **Compliance** reporting
+**Example:**
+```
+Enter project directory path: /home/user/my-enterprise-project
+```
 
-### Finance & Legal
-- **Invoice processing** automation
-- **Contract management** workflows
-- Financial reporting pipelines
-- Legal document processing
+**What happens:**
+- The orchestrator validates the directory exists
+- If invalid, you'll see: `❌ Directory '/path' not found. Exiting.`
 
-## Customer-Ready Solutions
+---
 
-The orchestrator enables organizations to **deploy intelligent, customer-ready solutions** across multiple business domains:
+### Step 2: Select Data Snapshot
 
-### Intelligent Assistants
-- **Insurance advisory systems**
-- **Property consultation platforms**
-- **Healthcare guidance systems**
-- **Personal consultation services**
-- **Travel assistance platforms**
-- **Service ordering systems**
+If your project has a `deliveries/` folder with snapshots:
 
-Each solution operates as a **specialized expert**, **enhancing customer experience** and **building engagement at scale**.
+```
+Available snapshots:
+  1. snapshot-1
+  2. snapshot-2
+  3. snapshot-2024-Q4
 
-## Monitoring & Metrics
+Select snapshot (or press Enter for default): _
+```
 
-### Real-Time Progress Tracking
-- Phase-by-phase execution status
-- Success/failure indicators
-- Processing time metrics
-- Resource utilization monitoring
+**Action:** Enter the number of your desired snapshot, or press Enter for default.
 
-### Quality Metrics
-- Transformation success rates
-- Build completion rates
-- Error detection and reporting
-- **Actionable intelligence** generation
+**Next, enter the application name:**
 
-### Logging & Audit Trail
-- Timestamped execution logs
-- Detailed error reporting
-- **Compliance** audit trails
-- Performance analytics
+```
+Enter application name: _
+```
 
-## Best Practices
+**Example:**
+```
+Enter application name: inventory-system
+```
 
-### Performance Optimization
-- **Reduce costs** through efficient resource usage
-- **Speed execution** with parallel processing
-- Optimize memory usage for large datasets
-- **Scale** operations based on demand
+---
 
-### Security & Compliance
-- **Built-in compliance** features
-- Secure data handling practices
-- **Audit trail** maintenance
-- **Enterprise-grade** security measures
+### Step 3: Choose Execution Mode
 
-### Operational Excellence
-- Regular monitoring and maintenance
-- **Continuous improvement** processes
-- **Future-proof** architecture design
-- **Adaptability** to changing requirements
+```
+Execution Modes:
+  1. Analysis Only
+  2. Transform and Build
+  3. Full Pipeline (Analysis + Transform + Build)
+  4. Exit
+
+Select mode: _
+```
+
+**Mode Selection Guide:**
+
+| Mode | When to Use | Phases Executed |
+|------|-------------|------------------|
+| **1** | Initial assessment, code review, dependency mapping | Extract → Validate → Analyze |
+| **2** | Ready to convert and build artifacts | Extract → Validate → Transform → Build |
+| **3** | Complete end-to-end processing | All 5 phases |
+| **4** | Exit without processing | None |
+
+**After selection:**
+```
+✓ Selected: Full Pipeline
+```
+
+---
+
+## Pipeline Phases In Detail
+
+### Phase 1: Extract
+
+```
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                              PHASE 1: EXTRACT                                │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│   PURPOSE: Discover and extract source files from the delivery snapshot     │
+│                                                                              │
+│   ┌─────────────────┐                      ┌─────────────────┐               │
+│   │   DELIVERIES    │                      │    EXTRACTED    │               │
+│   │    SNAPSHOT     │  ═══════════════▶    │      FILES      │               │
+│   │                 │     Extraction       │                 │               │
+│   │  • Raw sources  │                      │  • source-files │               │
+│   │  • Configs      │                      │  • config-files │               │
+│   │  • Data files   │                      │  • data-files   │               │
+│   │  • Metadata     │                      │  • metadata     │               │
+│   └─────────────────┘                      └─────────────────┘               │
+│                                                                              │
+│   SCRIPTS EXECUTED:                                                          │
+│   • tools/pipeline/extract-source-files.py                                   │
+│   • tools/pipeline/extract-config-files.py                                   │
+│   • tools/pipeline/extract-data-files.py                                     │
+│   • tools/pipeline/extract-metadata.py                                       │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
+
+**Console Output:**
+```
+============================================================
+PHASE 1: EXTRACTION
+============================================================
+
+✓ Extracting source-files completed
+✓ Extracting config-files completed
+✓ Extracting data-files completed
+✓ Extracting metadata completed
+
+Extraction Summary:
+----------------------------------------
+  1. source-files
+  2. config-files
+  3. data-files
+  4. metadata
+```
+
+**Failure Handling:**
+- If any extraction fails: `❌ Extracting [type] failed.`
+- Pipeline stops and exits with error code 1
+
+---
+
+### Phase 2: Validate
+
+```
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                              PHASE 2: VALIDATE                               │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│   PURPOSE: Clean and validate extracted files for quality assurance         │
+│                                                                              │
+│   ┌─────────────────┐                      ┌─────────────────┐               │
+│   │    EXTRACTED    │                      │    VALIDATED    │               │
+│   │      FILES      │  ═══════════════▶    │      FILES      │               │
+│   │                 │     Validation       │                 │               │
+│   │  • May have     │                      │  • Clean        │               │
+│   │    errors       │                      │  • Verified     │               │
+│   │  • Unverified   │                      │  • Ready for    │               │
+│   │    format       │                      │    analysis     │               │
+│   └─────────────────┘                      └─────────────────┘               │
+│                                                                              │
+│   VALIDATION CHECKS:                                                         │
+│   ✓ File format verification                                                 │
+│   ✓ Syntax validation                                                        │
+│   ✓ Encoding checks                                                          │
+│   ✓ Completeness verification                                                │
+│                                                                              │
+│   SCRIPTS EXECUTED:                                                          │
+│   • tools/pipeline/validate-source-files.py                                  │
+│   • tools/pipeline/validate-config-files.py                                  │
+│   • tools/pipeline/validate-data-files.py                                    │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
+
+**Console Output:**
+```
+============================================================
+PHASE 2: VALIDATION
+============================================================
+
+✓ Validating source-files completed
+✓ Validating config-files completed
+✓ Validating data-files completed
+
+Validation Summary:
+----------------------------------------
+  1. source-files
+  2. config-files
+  3. data-files
+```
+
+---
+
+### Phase 3: Analyze
+
+```
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                              PHASE 3: ANALYZE                                │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│   PURPOSE: Analyze dependencies, patterns, and quality metrics              │
+│                                                                              │
+│   ┌─────────────────┐                      ┌─────────────────┐               │
+│   │    VALIDATED    │                      │    ANALYSIS     │               │
+│   │      FILES      │  ═══════════════▶    │     REPORTS     │               │
+│   │                 │      Analysis        │                 │               │
+│   │                 │                      │  • Dependencies │               │
+│   │                 │                      │  • Patterns     │               │
+│   │                 │                      │  • Metrics      │               │
+│   │                 │                      │  • Quality      │               │
+│   └─────────────────┘                      └─────────────────┘               │
+│                                                                              │
+│   ANALYSIS TYPES:                                                            │
+│   ┌────────────────┬─────────────────────────────────────────┐               │
+│   │ dependencies   │ Maps file relationships and imports     │               │
+│   │ patterns       │ Identifies code patterns and structures │               │
+│   │ metrics        │ Calculates complexity and size metrics  │               │
+│   │ quality        │ Assesses code quality indicators        │               │
+│   └────────────────┴─────────────────────────────────────────┘               │
+│                                                                              │
+│   SCRIPTS EXECUTED:                                                          │
+│   • tools/pipeline/analyze-dependencies.py                                   │
+│   • tools/pipeline/analyze-patterns.py                                       │
+│   • tools/pipeline/analyze-metrics.py                                        │
+│   • tools/pipeline/analyze-quality.py                                        │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
+
+**Console Output:**
+```
+============================================================
+PHASE 3: ANALYSIS
+============================================================
+
+✓ Analyzing dependencies completed
+✓ Analyzing patterns completed
+✓ Analyzing metrics completed
+✓ Analyzing quality completed
+
+Analysis Summary:
+----------------------------------------
+  1. dependencies
+  2. patterns
+  3. metrics
+  4. quality
+```
+
+**Note:** For Mode 1 (Analysis Only), the pipeline ends here with:
+```
+✓ Analysis complete.
+
+Total execution time: 45.32 seconds
+```
+
+---
+
+### Phase 4: Transform
+
+```
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                             PHASE 4: TRANSFORM                               │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│   PURPOSE: Convert source files to target format/architecture               │
+│                                                                              │
+│   ┌─────────────────┐                      ┌─────────────────┐               │
+│   │     SOURCE      │                      │     TARGET      │               │
+│   │     FORMAT      │  ═══════════════▶    │     FORMAT      │               │
+│   │                 │   Transformation     │                 │               │
+│   │  source-files   │──────────────────────│  target-format  │               │
+│   │  config-files   │──────────────────────│  target-config  │               │
+│   │  data-files     │──────────────────────│  target-schema  │               │
+│   └─────────────────┘                      └─────────────────┘               │
+│                                                                              │
+│   TRANSFORMATION MAPPING:                                                    │
+│   ┌──────────────────┬────────────────────┐                                  │
+│   │ Source           │ Target             │                                  │
+│   ├──────────────────┼────────────────────┤                                  │
+│   │ source-files     │ target-format      │                                  │
+│   │ config-files     │ target-config      │                                  │
+│   │ data-files       │ target-schema      │                                  │
+│   └──────────────────┴────────────────────┘                                  │
+│                                                                              │
+│   OUTPUT LOCATION: work/transformed/                                         │
+│                                                                              │
+│   SCRIPTS EXECUTED:                                                          │
+│   • tools/pipeline/transform-source-files-to-target-format.py                │
+│   • tools/pipeline/transform-config-files-to-target-config.py                │
+│   • tools/pipeline/transform-data-files-to-target-schema.py                  │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
+
+**Console Output:**
+```
+============================================================
+PHASE 4: TRANSFORMATION
+============================================================
+
+✓ Transforming source-files to target-format completed
+✓ Transforming config-files to target-config completed
+✓ Transforming data-files to target-schema completed
+
+Transformation Summary:
+----------------------------------------
+  1. source-files → target-format
+  2. config-files → target-config
+  3. data-files → target-schema
+```
+
+---
+
+### Phase 5: Build
+
+```
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                               PHASE 5: BUILD                                 │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│   PURPOSE: Compile and package validated artifacts                          │
+│                                                                              │
+│   ┌─────────────────────────────────────────────────────────────────────┐    │
+│   │                         BUILD PROCESS                               │    │
+│   └─────────────────────────────────────────────────────────────────────┘    │
+│                                                                              │
+│   STEP 1: Identify Successful Artifacts                                      │
+│   ┌─────────────────┐                                                        │
+│   │ Parse logs/     │──▶ Find artifacts with 0 errors                       │
+│   │ transformation  │                                                        │
+│   │ .log            │                                                        │
+│   └─────────────────┘                                                        │
+│           │                                                                  │
+│           ▼                                                                  │
+│   STEP 2: Copy Validated Artifacts                                           │
+│   ┌─────────────────┐         ┌─────────────────┐                            │
+│   │ work/           │ ──────▶ │ target/         │                            │
+│   │ transformed/    │  Copy   │ artifacts/      │                            │
+│   └─────────────────┘         └─────────────────┘                            │
+│           │                                                                  │
+│           ▼                                                                  │
+│   STEP 3: Execute Build Tool                                                 │
+│   ┌─────────────────────────────────────────────────────────────────────┐    │
+│   │  ant clean  ──▶  ant build  ──▶  ant install                        │    │
+│   └─────────────────────────────────────────────────────────────────────┘    │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
+
+**Console Output:**
+```
+============================================================
+PHASE 5: BUILD
+============================================================
+
+Copying validated artifacts to target directory...
+✓ Copied 42 validated artifacts
+
+Building artifacts using ANT...
+
+✓ ant clean
+✓ ant build
+✓ ant install
+```
+
+**If build tool not found:**
+```
+⚠ ant not found, skipping build step.
+```
+
+---
+
+## Understanding Output and Logs
+
+### Log File Location
+
+All execution logs are stored in the `runlogs/` directory:
+
+```
+runlogs/
+├── extract-source-files_1699876543.log
+├── extract-config-files_1699876544.log
+├── validate-source-files_1699876550.log
+├── transform-source-files-to-target-format_1699876560.log
+├── ant_clean_1699876580.log
+├── ant_build_1699876585.log
+└── ant_install_1699876590.log
+```
+
+**Log Naming Convention:** `{script-name}_{unix-timestamp}.log`
+
+### Transformation Log Format
+
+The `logs/transformation.log` contains results in a table format:
+
+```
+| Artifact Name      | Errors | Warnings |
+|--------------------|--------|----------|
+| module1.src        | 0      | 2        |  ← Will be copied (0 errors)
+| module2.src        | 3      | 1        |  ← Will NOT be copied
+| config1.cfg        | 0      | 0        |  ← Will be copied (0 errors)
+```
+
+---
+
+## Execution Metrics
+
+At the end of execution, you'll see a summary:
+
+```
+============================================================
+PIPELINE EXECUTION SUMMARY
+============================================================
+
+Total Artifacts Processed:    150
+Successful Transformations:   142
+Artifacts Built:              142
+
+Transformation Success Rate:  94.67%
+Build Success Rate:           94.67%
+
+============================================================
+
+✓ Pipeline completed successfully
+Total execution time: 127.45 seconds
+```
+
+**Metrics Explained:**
+
+| Metric | Description |
+|--------|-------------|
+| **Total Artifacts Processed** | All files that went through transformation |
+| **Successful Transformations** | Files with zero transformation errors |
+| **Artifacts Built** | Files successfully copied and built |
+| **Transformation Success Rate** | (Successful / Total) × 100 |
+| **Build Success Rate** | (Built / Total) × 100 |
+
+---
 
 ## Troubleshooting
 
 ### Common Issues
-- **Build tool not found**: Ensure Ant/Maven/Gradle is installed
-- **Permission errors**: Check file system permissions
-- **Memory issues**: Increase available memory for large projects
-- **Network connectivity**: Verify access to required resources
 
-### Error Recovery
-- **Graceful error handling** with detailed messages
-- **Automatic retry** mechanisms for transient failures
-- **Rollback capabilities** for failed transformations
-- **User feedback** for manual intervention
+| Error | Cause | Solution |
+|-------|-------|----------|
+| `❌ Directory not found` | Invalid project path | Verify the path exists and is accessible |
+| `❌ Extracting [type] failed` | Script error or missing files | Check `runlogs/` for detailed error |
+| `⚠ ant not found` | Build tool not installed | Install Ant, Maven, or Gradle |
+| `Pipeline interrupted by user` | Ctrl+C pressed | Re-run the orchestrator |
 
-## Advanced Features
+### Checking Detailed Logs
 
-### Extensibility
-- **Custom transformation** scripts
-- **Plugin architecture** for domain-specific needs
-- **API integration** capabilities
-- **Workflow customization** options
+1. Navigate to `runlogs/` directory
+2. Find the log file for the failed step (by timestamp)
+3. Open and review the error details
 
-### Integration Capabilities
-- **CI/CD pipeline** integration
-- **Version control** system compatibility
-- **Cloud platform** deployment support
-- **Enterprise tool** ecosystem integration
+```bash
+cat runlogs/extract-source-files_1699876543.log
+```
 
-## Support & Resources
+### Exit Codes
 
-### Getting Help
-- Comprehensive error messages with **actionable guidance**
-- Built-in help system
-- **Documentation** and examples
-- **Community support** resources
-
-### Continuous Improvement
-- Regular updates and enhancements
-- **Feedback-driven** feature development
-- **Performance optimization** updates
-- **Security patches** and improvements
+| Code | Meaning |
+|------|----------|
+| `0` | Success |
+| `1` | Failure (check logs for details) |
 
 ---
 
-## Conclusion
+## Appendix: Environment Variables
 
-The Pipeline Orchestrator represents a **transformative approach** to software development and legacy modernization. By combining **Agentic AI capabilities** with **enterprise-grade reliability**, it enables organizations to:
+The orchestrator sets these environment variables during execution:
 
-- **Accelerate delivery** across all SDLC phases
-- **Reduce operational costs** through automation
-- **Improve quality** with built-in validation
-- **Scale operations** with confidence
-- **Future-proof** their technology investments
+| Variable | Description | Example Value |
+|----------|-------------|---------------|
+| `DELIVERY_DIR` | Path to selected snapshot | `deliveries/snapshot-1` |
+| `SNAPSHOT_NAME` | Name of selected snapshot | `snapshot-1` |
+| `APP_NAME` | Application identifier | `inventory-system` |
 
-Whether you're modernizing legacy systems, implementing DevSecOps practices, or launching customer-ready AI solutions, the Pipeline Orchestrator provides the **speed, security, and reliability** needed to **innovate at scale** in today's competitive landscape.
+These variables are available to all pipeline scripts during execution.
 
-**Start your transformation journey today** and experience the power of **Agentic AI** in revolutionizing your software development process.
+---
+
+## Quick Reference Card
+
+```
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                           QUICK REFERENCE                                    │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│  LAUNCH:    python pipeline_orchestrator.py                                  │
+│                                                                              │
+│  MODES:     1 = Analysis Only    (Extract → Validate → Analyze)             │
+│             2 = Transform+Build  (Extract → Validate → Transform → Build)   │
+│             3 = Full Pipeline    (All 5 phases)                              │
+│             4 = Exit                                                         │
+│                                                                              │
+│  PHASES:    Extract → Validate → Analyze → Transform → Build                │
+│                                                                              │
+│  LOGS:      runlogs/*.log                                                    │
+│                                                                              │
+│  OUTPUT:    target/artifacts/                                                │
+│                                                                              │
+│  SUCCESS:   ✓ = passed    ❌ = failed    ⚠ = warning                         │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
